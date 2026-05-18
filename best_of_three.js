@@ -3,124 +3,23 @@
 // =========================
 
 // ---------- Subject Rules ----------
-const SUBJECT_INFO = {
+const SUBJECT_INFO_URL = "https://raw.githubusercontent.com/melur-cu/ug_samrth_extension/main/configs/subject_info.json";
+const SUBJECT_INFO = {}; // starts empty, filled after fetch
 
-  // ---------- Arts Subjects ----------
-  POLITICAL_SCIENCE: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  GEOGRAPHY: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  HISTORY: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  PHILOSOPHY: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  PSYCHOLOGY: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  ECONOMICS: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  ANTHROPOLOGY: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  SOCIOLOGY: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  EDUCATION: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  HINDI: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 50% aggregate marks or equivalent grade points and 50% marks in Hindi.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 45% aggregate marks or equivalent grade points and 50% marks in Hindi.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  BODO: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 50% aggregate marks or equivalent grade points and 50% marks in Bodo.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 45% aggregate marks or equivalent grade points and 50% marks in Bodo.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  SANSKRIT: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 50% aggregate marks or equivalent grade points and 50% marks in Sanskrit.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 45% aggregate marks or equivalent grade points and 50% marks in Sanskrit.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  BENGALI: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 50% aggregate marks or equivalent grade points and 50% marks in Bengali.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 45% aggregate marks or equivalent grade points and 50% marks in Bengali.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  ARABIC: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 50% aggregate marks or equivalent grade points and 45% marks in Arabic.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 45% aggregate marks or equivalent grade points and 45% marks in Arabic.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  PERSIAN: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 50% aggregate marks or equivalent grade points and 45% marks in Persian.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 45% aggregate marks or equivalent grade points and 45% marks in Persian.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  ENGLISH: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points and 60% marks in English.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points and 60% marks in English.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-  ASSAMESE: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points and 60% marks in Assamese.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points and 60% marks in Assamese.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
+async function loadSubjectInfo() {
+  try {
+    const response = await fetch(SUBJECT_INFO_URL);
+    if (!response.ok) throw new Error("Failed to fetch subject info");
+    SUBJECT_INFO = await response.json();
+    console.log("Subject info loaded:", SUBJECT_INFO);
+  } catch (error) {
+    console.error("Could not load subject info, using fallback:", error);
+    // Fallback in case fetch fails
+    SUBJECT_INFO = {};
+  }
+}
 
-  // ---------- Science Subjects ----------
-  BIOTECHNOLOGY: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose best 3 science subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose best 3 science subjects.</li></ul>",
-  },
-  COMPUTER_SCIENCE: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points with pass marks in Mathematics.</li><li>Choose best 3 science subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points with pass marks in Mathematics.</li><li>Choose best 3 science subjects.</li></ul>",
-  },
-  ZOOLOGY: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points with pass marks in Biology.</li><li>Choose best 3 science subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points with pass marks in Biology.</li><li>Choose best 3 science subjects.</li></ul>",
-  },
-  BOTANY: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points with pass marks in Biology.</li><li>Choose best 3 science subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points with pass marks in Biology.</li><li>Choose best 3 science subjects.</li></ul>",
-  },
-  PHYSICS: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points with 50% marks in Physics and pass marks in Mathematics.</li><li>Choose best 3 science subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points with 50% marks in Physics and pass marks in Mathematics.</li><li>Choose best 3 science subjects.</li></ul>",
-  },
-  CHEMISTRY: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points with 50% marks in Chemistry and pass marks in Mathematics.</li><li>Choose best 3 science subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points with 50% marks in Chemistry and pass marks in Mathematics.</li><li>Choose best 3 science subjects.</li></ul>",
-  },
-  GEOLOGY: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points with pass marks in Physics/Chemistry/Mathematics.</li><li>Choose best 3 science subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points with pass marks in Physics/Chemistry/Mathematics.</li><li>Choose best 3 science subjects.</li></ul>",
-  },
 
-  // ---------- Mixed Stream Subjects ----------
-  MATHEMATICS: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points with 50% marks in Mathematics.</li><li>If applicant passed in arts stream, then any 3 best subjects.</li><li>If applicant passed in science stream, then best 3 science subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points with 50% marks in Mathematics.</li><li>If applicant passed in arts stream, then any 3 best subjects.</li><li>If applicant passed in science stream, then best 3 science subjects.</li></ul>",
-  },
-
-  // ---------- Other ----------
-  COMPUTER_APPLICATION: {
-    ot: "<ul><li>10+2 standard pass with minimum 60% aggregate marks or equivalent grade points with pass marks in Mathematics/Applied Mathematics.</li><li>Choose any 3 best subjects with pass marks in Mathematics/Applied Mathematics.</li></ul>",
-    st: "<ul><li>10+2 standard pass with minimum 55% aggregate marks or equivalent grade points with pass marks in Mathematics/Applied Mathematics.</li><li>Choose any 3 best subjects with pass marks in Mathematics/Applied Mathematics.</li></ul>",
-  },
-  MASS_COMMUNICATION_AND_JOURNALISM: {
-    ot: "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-    st: "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
-  },
-};
 
 // Categories that qualify for ST relaxation
 const ST_CATEGORIES = ["SCHEDULE TRIBE (PLAINS)","SCHEDULE TRIBE (HILLS)","SCHEDULED CASTE (SC)","OBC-NCL"];
@@ -250,6 +149,7 @@ function createNoticeBox({ subject, category, subjectRule, passYear,isNCL }) {
 
 // ---------- Main ----------
 async function main() {
+  await loadSubjectInfo();
   if (document.getElementById("notice-box")) return;
 
   const studentInfoCard = document.querySelector(".student-info-card");
