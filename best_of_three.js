@@ -43,7 +43,7 @@ async function loadSubjectInfo() {
     SUBJECT_INFO = data;
     ST_CATEGORIES = data.ST_CATEGORIES || [];
 
-    console.log("Subject info loaded", SUBJECT_INFO, ST_CATEGORIES);
+    console.log("Subject info loaded");
   } catch (error) {
     console.error("Failed to load subject info:", error);
     SUBJECT_INFO = {};
@@ -267,20 +267,15 @@ async function main() {
 
     await loadSubjectInfo();
 
-    const studentInfoCard =
-      document.querySelector(".student-info-card");
+    const studentInfoCard = document.querySelector(".student-info-card");
 
     if (!studentInfoCard) {
       throw new Error("Student info card not found");
     }
 
-    const passYear = parseInt(
-      findFieldValue("Passing Year")
-    );
+    const passYear = parseInt(findFieldValue("Passing Year"));
 
-    const rawSubject = normalizeSubject(
-      extractMajorName() || "COMPUTER_APPLICATION"
-    );
+    const rawSubject = normalizeSubject(extractMajorName());
 
     // Fetch scrutiny page
     const scrutinyHTML = await fetchScrutinyHTML();
@@ -295,27 +290,18 @@ async function main() {
 
     const ruleText = getSubjectRule(rawSubject, isReserved);
 
-    console.log({
-      passYear,
-      subject: rawSubject,
-      category,
-      isReserved,
-      isNCL
-    });
+    console.log({passYear,subject: rawSubject,category,isReserved,isNCL});
 
     const noticeBox = createNoticeBox({
-      subject: rawSubject,
-      category,
-      passYear,
-      isReserved,
-      isNCL,
-      ruleText
-    });
+                                        subject: rawSubject,
+                                        category,
+                                        passYear,
+                                        isReserved,
+                                        isNCL,
+                                        ruleText
+                                      });
 
-    studentInfoCard.insertAdjacentElement(
-      "afterend",
-      noticeBox
-    );
+    studentInfoCard.insertAdjacentElement("afterend",noticeBox);
 
   } catch (error) {
 

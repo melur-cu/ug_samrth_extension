@@ -6,5 +6,6 @@
   "nclcategoryCertificate": "Invalid NCL certificate. Treated as Unreserved.",
   "incomeCertificate":      "Invalid document. Upload ration card only.",
   "domicile_state_upload":  "Invalid domicile. Aadhaar not accepted.",
-  "cca_quota_upload":       "Invalid document. Upload valid certificate."
+  "cca_quota_upload":       "Invalid document. Upload valid certificate.",
+  "menu_remove_list":["ID Proof Document","Class X Details"]
 }
