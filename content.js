@@ -1,17 +1,28 @@
 // ---------- Remarks ----------
-const REMARKS = {
-  photo:                  "Invalid photo. Upload a passport-size photo.",
-  signature:              "Invalid signature. Upload on white paper.",
-  id_proof_upload:        "Invalid ID proof. Upload a govt-issued ID.",
-  categoryCertificate:    "Invalid certificate. Treated as Unreserved.",
-  nclcategoryCertificate: "Invalid NCL certificate. Treated as Unreserved.",
-  incomeCertificate:      "Invalid document. Upload ration card only.",
-  domicile_state_upload:  "Invalid domicile. Aadhaar not accepted.",
-  cca_quota_upload:       "Invalid document. Upload valid certificate.",
-};
+const REMARKS_URL = "https://raw.githubusercontent.com/melur-cu/ug_samrth_extension/main/configs/remarks.json";
+
+let REMARKS = {}; // starts empty, filled after fetch
+
+async function loadRemarks() {
+  try {
+    const response = await fetch(REMARKS_URL);
+    if (!response.ok) throw new Error("Failed to fetch remarks");
+    REMARKS = await response.json();
+    console.log("Remarks loaded:", REMARKS);
+  } catch (error) {
+    console.error("Could not load remarks, using fallback:", error);
+    // Fallback in case fetch fails
+    REMARKS = {
+      photo: "Invalid photo. Upload a passport-size photo.",
+      // ...other fallbacks
+    };
+  }
+}
+
 
 // ---------- Dropdown Logic ----------
-function setupDropdownLogic() {
+async function setupDropdownLogic() {
+  await loadRemarks();
   const field = new URL(window.location.href).searchParams.get("field") || "photo";
   console.log("Dropdown field identified:", field);
 

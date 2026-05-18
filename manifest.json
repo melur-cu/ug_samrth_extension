@@ -4,6 +4,9 @@
   "version": "2026.5.15.1",
   "description": "Melur's Samarth Helper",
   "permissions": ["scripting", "activeTab","storage"],
+  "host_permissions": [
+    "https://raw.githubusercontent.com/*"
+  ],
   "action": {
     "default_icon": "icon.png"
   },

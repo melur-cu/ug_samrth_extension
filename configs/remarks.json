@@ -1,5 +1,5 @@
 {
-  "photo":                  "Invalid photo. Upload a passport-size photo.",
+  "photo":                  "Invalid photo. Upload a passport-size photo. testing",
   "signature":              "Invalid signature. Upload on white paper.",
   "id_proof_upload":        "Invalid ID proof. Upload a govt-issued ID.",
   "categoryCertificate":    "Invalid certificate. Treated as Unreserved.",
