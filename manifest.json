@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "MSH",
+  "version": "2026.5.15.1",
+  "description": "Melur's Samarth Helper",
+  "permissions": ["scripting", "activeTab","storage"],
+  "action": {
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/verify-documents-personal?*"
+      ],
+      "js": ["content.js"]
+    },
+    {
+      "matches": [
+        "https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/best-five?*"
+      ],
+      "js": ["best_of_three.js"]
+    },
+    {
+      "matches": [
+        "https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/verify-documents-university-specific?*"
+      ],
+      "js": ["verify_documents_university_specific.js"]
+    },
+    {
+      "matches": [
+        "https://assam.samarth.ac.in/index.php/admissionhed126/applicants/paid-list-doc*"
+      ],
+      "js": ["paid_list_doc.js"]
+    },
+    
+    {
+      "matches": [
+        "https://assamadmission.samarth.ac.in/index.php/academic/academic/create*"
+      ],
+      "js": ["update_marks.js"]
+    },
+    {
+      "matches": [
+        "https://assamadmission.samarth.ac.in/index.php/course/programme/course-selection*"
+      ],
+      "js": ["redirect_to_update_marks.js"]
+    }
+    
+  ]
+}
