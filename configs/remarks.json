@@ -8,5 +8,5 @@
   "domicile_state_upload":  "Invalid domicile. Aadhaar not accepted.",
   "cca_quota_upload":       "Invalid document. Upload valid certificate.",
   "menu_remove_list":["ID Proof Document","Class X Details",
-  "State Domicile Document","Transfer Certificate Upload"]
+  "Domicile State Upload","Transfer Certificate Upload","Upload Extra-Curri..."]
 }
