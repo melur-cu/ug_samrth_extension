@@ -110,5 +110,11 @@
   "MASS_COMMUNICATION_AND_JOURNALISM": {
     "ot": "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
     "st": "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>"
-  }
+  },
+  "ST_CATEGORIES": [
+    "SCHEDULE TRIBE (PLAINS)",
+    "SCHEDULE TRIBE (HILLS)",
+    "SCHEDULED CASTE (SC)",
+    "OBC-NCL"
+  ]
 }

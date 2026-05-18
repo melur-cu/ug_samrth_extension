@@ -11,16 +11,11 @@ const CONFIG = {
   SCRUTINY_BASE:
     "https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/verify-documents-personal",
 
-  ST_CATEGORIES: [
-    "SCHEDULE TRIBE (PLAINS)",
-    "SCHEDULE TRIBE (HILLS)",
-    "SCHEDULED CASTE (SC)",
-    "OBC-NCL"
-  ]
+  
 };
 
 let SUBJECT_INFO = {};
-
+let ST_CATEGORIES = [];
 
 // =========================
 // Utilities
@@ -54,9 +49,11 @@ async function loadSubjectInfo() {
       throw new Error(`HTTP ${response.status}`);
     }
 
-    SUBJECT_INFO = await response.json();
+    const data = await response.json();
+    SUBJECT_INFO = data;
+    ST_CATEGORIES = data.ST_CATEGORIES || [];
 
-    console.log("Subject info loaded");
+    console.log("Subject info loaded", SUBJECT_INFO, ST_CATEGORIES);
   } catch (error) {
     console.error("Failed to load subject info:", error);
     SUBJECT_INFO = {};
@@ -177,7 +174,7 @@ function parsePersonalDetails(html) {
 
 function isReservedCategory(category) {
 
-  return CONFIG.ST_CATEGORIES.includes(
+  return ST_CATEGORIES.includes(
     normalizeText(category)
   );
 }
