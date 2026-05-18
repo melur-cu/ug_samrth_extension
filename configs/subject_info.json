@@ -104,8 +104,8 @@
     "st": "<ul><li>HS/10+2 standard pass with minimum 55% aggregate marks or equivalent grade points with pass marks in Mathematics.</li><li>If applicant passed in arts stream, then any 3 best subjects.</li><li>If applicant passed in science stream, then best 3 science subjects.</li></ul>"
   },
   "COMPUTER_APPLICATION": {
-    "ot": "<ul><li>10+2 standard pass with minimum 60% aggregate marks or equivalent grade points with pass marks in Mathematics/Applied Mathematics.</li><li>Choose any 3 best subjects with pass marks in Mathematics/Applied Mathematics.</li></ul>",
-    "st": "<ul><li>10+2 standard pass with minimum 55% aggregate marks or equivalent grade points with pass marks in Mathematics/Applied Mathematics.</li><li>Choose any 3 best subjects with pass marks in Mathematics/Applied Mathematics.</li></ul>"
+    "ot": "<ul><li>10+2 standard pass with minimum 60% aggregate marks or equivalent grade points with <u>pass marks in Mathematics/Applied Mathematics.</u></li><li>Choose any 3 best subjects with pass marks in Mathematics/Applied Mathematics.</li></ul>",
+    "st": "<ul><li>10+2 standard pass with minimum 55% aggregate marks or equivalent grade points with <u>pass marks in Mathematics/Applied Mathematics.</u></li><li>Choose any 3 best subjects with pass marks in Mathematics/Applied Mathematics.</li></ul>"
   },
   "MASS_COMMUNICATION_AND_JOURNALISM": {
     "ot": "<ul><li>HS/10+2 standard pass with minimum 60% aggregate marks or equivalent grade points.</li><li>Choose any best 3 subjects.</li></ul>",
