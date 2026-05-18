@@ -1,144 +1,288 @@
 // =========================
-// Chrome Extension Utility
+// Configuration
 // =========================
 
-// ---------- Subject Rules ----------
-const SUBJECT_INFO_URL = "https://raw.githubusercontent.com/melur-cu/ug_samrth_extension/main/configs/subject_info.json";
-const SUBJECT_INFO = {}; // starts empty, filled after fetch
+const CONFIG = {
+  SUBJECT_INFO_URL:
+    "https://raw.githubusercontent.com/melur-cu/ug_samrth_extension/main/configs/subject_info.json",
+
+  GAP_YEAR_CUTOFF: 2023,
+
+  SCRUTINY_BASE:
+    "https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/verify-documents-personal",
+
+  ST_CATEGORIES: [
+    "SCHEDULE TRIBE (PLAINS)",
+    "SCHEDULE TRIBE (HILLS)",
+    "SCHEDULED CASTE (SC)",
+    "OBC-NCL"
+  ]
+};
+
+let SUBJECT_INFO = {};
+
+
+// =========================
+// Utilities
+// =========================
+
+const normalizeText = (text = "") =>
+  text.trim().toUpperCase();
+
+const normalizeSubject = (text = "") =>
+  normalizeText(text).replace(/\s+/g, "_");
+
+const getQueryParams = () =>
+  new URL(window.location.href).searchParams;
+
+const generateScrutinyURL = () => {
+  const params = getQueryParams();
+
+  return `${CONFIG.SCRUTINY_BASE}?id=${params.get("id")}&programme_selection_id=${params.get("programme_selection_id")}`;
+};
+
+
+// =========================
+// Subject Loader
+// =========================
 
 async function loadSubjectInfo() {
   try {
-    const response = await fetch(SUBJECT_INFO_URL);
-    if (!response.ok) throw new Error("Failed to fetch subject info");
+    const response = await fetch(CONFIG.SUBJECT_INFO_URL);
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
     SUBJECT_INFO = await response.json();
-    console.log("Subject info loaded:", SUBJECT_INFO);
+
+    console.log("Subject info loaded");
   } catch (error) {
-    console.error("Could not load subject info, using fallback:", error);
-    // Fallback in case fetch fails
+    console.error("Failed to load subject info:", error);
     SUBJECT_INFO = {};
   }
 }
 
 
+// =========================
+// DOM Helpers
+// =========================
 
-// Categories that qualify for ST relaxation
-const ST_CATEGORIES = ["SCHEDULE TRIBE (PLAINS)","SCHEDULE TRIBE (HILLS)","SCHEDULED CASTE (SC)","OBC-NCL"];
+function findFieldValue(labelText) {
 
-const GAP_YEAR_CUTOFF = 2023;
-const SCRUTINY_BASE   = "https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/verify-documents-personal";
+  const labels = document.querySelectorAll("strong.text-muted");
 
+  for (const label of labels) {
 
-// ---------- URL Helpers ----------
-function getQueryParams() {
-  return new URL(window.location.href).searchParams;
-}
-
-function generateScrutinyURL() {
-  const params = getQueryParams();
-  return `${SCRUTINY_BASE}?id=${params.get("id")}&programme_selection_id=${params.get("programme_selection_id")}`;
-}
-
-
-// ---------- DOM Extractors ----------
-function extractFieldValue(labelText) {
-  for (const label of document.querySelectorAll("strong.text-muted")) {
     if (label.textContent.trim() !== labelText) continue;
 
     const parent = label.parentElement;
-    const value  = parent.querySelector(".field-value") ?? parent.querySelector(".text-sm");
-    if (value) return value.textContent.trim();
+
+    const valueElement =
+      parent.querySelector(".field-value") ||
+      parent.querySelector(".text-sm");
+
+    return valueElement?.textContent.trim() || null;
   }
+
   return null;
 }
 
 function extractMajorName() {
-  for (const label of document.querySelectorAll("small.text-muted")) {
-    if (label.textContent.trim() !== "Scheme | Major/1st Minor") continue;
+
+  const labels = document.querySelectorAll("small.text-muted");
+
+  for (const label of labels) {
+
+    if (label.textContent.trim() !== "Scheme | Major/1st Minor") {
+      continue;
+    }
 
     const strongs = label.parentElement.querySelectorAll("strong");
-    if (strongs.length >= 2) return strongs[1].textContent.trim();
+
+    return strongs[1]?.textContent.trim() || null;
   }
+
   return null;
 }
 
-function extractPersonalDetails(htmlString) {
-  const doc    = new DOMParser().parseFromString(htmlString, "text/html");
-  const result = {};
 
-  const personalCard = [...doc.querySelectorAll(".card")].find(card => {
-    const header = card.querySelector(".card-header h6");
-    return header?.textContent.trim() === "Personal Details";
+// =========================
+// Scrutiny Data
+// =========================
+
+async function fetchScrutinyHTML() {
+
+  const response = await fetch(generateScrutinyURL(), {
+    method: "GET",
+    credentials: "include"
   });
 
-  if (!personalCard) return result;
-
-  for (const field of personalCard.querySelectorAll(".mb-1")) {
-    const key   = field.querySelector("strong.text-muted")?.textContent.trim();
-    const value = field.querySelector(".text-sm")?.textContent.trim();
-    if (key && value) result[key] = value;
+  if (!response.ok) {
+    throw new Error(`Request failed: ${response.status}`);
   }
 
-  // ---------- DD List (sidebar document list) ----------
-  const ddItems = [...doc.querySelectorAll("dl.list-group dd")];
+  return response.text();
+}
 
-  result["list_of"] = ddItems.map(dd => dd.querySelector("div")?.textContent.trim()).filter(Boolean);
+function parsePersonalDetails(html) {
 
-  console.log("Extracted Personal Details:", result);
+  const doc = new DOMParser().parseFromString(html, "text/html");
+
+  const result = {
+    category: "N/A",
+    documents: []
+  };
+
+  // Personal Details Card
+  const personalCard = [...doc.querySelectorAll(".card")]
+    .find(card => {
+
+      const heading = card.querySelector(".card-header h6");
+
+      return heading?.textContent.trim() === "Personal Details";
+    });
+
+  if (personalCard) {
+
+    for (const field of personalCard.querySelectorAll(".mb-1")) {
+
+      const key = field
+        .querySelector("strong.text-muted")
+        ?.textContent.trim();
+
+      const value = field
+        .querySelector(".text-sm")
+        ?.textContent.trim();
+
+      if (key === "Category") {
+        result.category = value || "N/A";
+      }
+    }
+  }
+
+  // Sidebar documents
+  result.documents = [
+    ...doc.querySelectorAll("dl.list-group dd div")
+  ]
+    .map(el => el.textContent.trim());
 
   return result;
 }
 
 
-// ---------- Data Fetcher ----------
-async function fetchScrutinyHTML() {
-  const response = await fetch(generateScrutinyURL(), {
-    method: "GET",
-    credentials: "include",
-  });
+// =========================
+// Business Logic
+// =========================
 
-  if (!response.ok) throw new Error(`Request failed: ${response.status}`);
-  return response.text();
+function isReservedCategory(category) {
+
+  return CONFIG.ST_CATEGORIES.includes(
+    normalizeText(category)
+  );
+}
+
+function hasNCLCertificate(documents = []) {
+
+  return documents.some(doc =>
+    normalizeText(doc).includes("NCL")
+  );
+}
+
+function getSubjectRule(subject, isReserved) {
+
+  const fallback = {
+    ot: "No criteria available.",
+    st: "No criteria available."
+  };
+
+  const rule = SUBJECT_INFO[subject] || fallback;
+
+  return isReserved
+    ? rule.st || fallback.st
+    : rule.ot || fallback.ot;
 }
 
 
-// ---------- Notice UI ----------
-function createNoticeBox({ subject, category, subjectRule, passYear,isNCL }) {
-  const isGapYearViolation = passYear < GAP_YEAR_CUTOFF;
-  const isSTCategory       = isNCL ? true: ST_CATEGORIES.includes(category.trim().toUpperCase());
+// =========================
+// UI
+// =========================
 
-  // Pick the correct rule string based on category
-  const ruleText = isSTCategory
-    ? (subjectRule.st ?? subjectRule.ot ?? "No criteria available.")
-    : (subjectRule.ot ?? "No criteria available.");
+function createNoticeBox(data) {
 
-  const alertType   = isGapYearViolation ? "danger" : "info";
-  const borderColor = isGapYearViolation ? "#dc3545" : "#0d6efd";
-  const btnClass    = isGapYearViolation ? "btn-danger" : "btn-primary";
+  const {
+    subject,
+    category,
+    passYear,
+    isReserved,
+    isNCL,
+    ruleText
+  } = data;
 
-  const gapYearWarning = isGapYearViolation
-    ? `<div class="alert alert-danger mt-2 mb-2">
-         ⚠️ Candidates having more than 3 years study gap are <strong>not eligible</strong> for admission.
-       </div>`
-    : "";
+  const hasGapIssue =
+    passYear < CONFIG.GAP_YEAR_CUTOFF;
+
+  const alertType =
+    hasGapIssue ? "danger" : "info";
+
+  const borderColor =
+    hasGapIssue ? "#dc3545" : "#0d6efd";
+
+  const buttonClass =
+    hasGapIssue ? "btn-danger" : "btn-primary";
 
   const div = document.createElement("div");
-  div.id               = "notice-box";
-  div.className        = `alert alert-${alertType} mt-3 shadow-sm`;
-  div.style.borderLeft = `5px solid ${borderColor}`;
+
+  div.id = "notice-box";
+
+  div.className =
+    `alert alert-${alertType} mt-3 shadow-sm`;
+
+  div.style.borderLeft =
+    `5px solid ${borderColor}`;
 
   div.innerHTML = `
     <p class="mb-1">
-      <strong>Subject:</strong> ${subject}&nbsp;&nbsp;
-      <strong>Category:</strong> ${category}
-      ${isSTCategory ? '<span class="badge bg-success ms-2">Relaxation Applied</span>' : ""}
+      <strong>Subject:</strong> ${subject}
       &nbsp;&nbsp;
-      ${isNCL ? '<span class="badge bg-warning ms-2">NCL Category</span>' : ""}
-      
+
+      <strong>Category:</strong> ${category}
+
+      ${isReserved
+        ? '<span class="badge bg-success ms-2">Relaxation Applied</span>'
+        : ""
+      }
+
+      ${isNCL
+        ? '<span class="badge bg-warning ms-2">NCL Category</span>'
+        : ""
+      }
     </p>
-    <h5 class="mb-2">Admission Criteria</h5>
-    <p class="mb-2">${ruleText}</p>
-    ${gapYearWarning}
-    <a href="${generateScrutinyURL()}" class="btn ${btnClass} btn-sm" target="_blank">
+
+    <h5 class="mb-2">
+      Admission Criteria
+    </h5>
+
+    <p class="mb-2">
+      ${ruleText}
+    </p>
+
+    ${
+      hasGapIssue
+        ? `
+          <div class="alert alert-danger mt-2 mb-2">
+            ⚠️ Candidates having more than 3 years study gap are
+            <strong>not eligible</strong> for admission.
+          </div>
+        `
+        : ""
+    }
+
+    <a
+      href="${generateScrutinyURL()}"
+      class="btn ${buttonClass} btn-sm"
+      target="_blank"
+    >
       Document Scrutiny
     </a>
   `;
@@ -147,43 +291,90 @@ function createNoticeBox({ subject, category, subjectRule, passYear,isNCL }) {
 }
 
 
-// ---------- Main ----------
+// =========================
+// Main
+// =========================
+
 async function main() {
-  await loadSubjectInfo();
-  if (document.getElementById("notice-box")) return;
 
-  const studentInfoCard = document.querySelector(".student-info-card");
-  if (!studentInfoCard) {
-    console.error("Student info card not found");
-    return;
+  try {
+
+    // Prevent duplicate injection
+    if (document.getElementById("notice-box")) {
+      return;
+    }
+
+    await loadSubjectInfo();
+
+    const studentInfoCard =
+      document.querySelector(".student-info-card");
+
+    if (!studentInfoCard) {
+      throw new Error("Student info card not found");
+    }
+
+    const passYear = parseInt(
+      findFieldValue("Passing Year")
+    );
+
+    const rawSubject = normalizeSubject(
+      extractMajorName() || "COMPUTER_APPLICATION"
+    );
+
+    // Fetch scrutiny page
+    const scrutinyHTML = await fetchScrutinyHTML();
+
+    const personalData =
+      parsePersonalDetails(scrutinyHTML);
+
+    const category =
+      personalData.category;
+
+    const isNCL =
+      hasNCLCertificate(personalData.documents);
+
+    const isReserved =
+      isNCL || isReservedCategory(category);
+
+    const ruleText =
+      getSubjectRule(rawSubject, isReserved);
+
+    console.log({
+      passYear,
+      subject: rawSubject,
+      category,
+      isReserved,
+      isNCL
+    });
+
+    const noticeBox = createNoticeBox({
+      subject: rawSubject,
+      category,
+      passYear,
+      isReserved,
+      isNCL,
+      ruleText
+    });
+
+    studentInfoCard.insertAdjacentElement(
+      "afterend",
+      noticeBox
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Extension initialization failed:",
+      error
+    );
   }
-
-  const passYear   = parseInt(extractFieldValue("Passing Year"));
-  const formNumber = extractFieldValue("Form Number");
-
-  if (!formNumber) {
-    console.error("Form number not found");
-    return;
-  }
-
-  const rawSubject  = (extractMajorName() ?? "COMPUTER_APPLICATION").trim().toUpperCase().replace(/\s+/g, "_");
-  const subjectRule = SUBJECT_INFO[rawSubject] ?? { ot: "No criteria available.", st: "No criteria available." };
-
-  const scrutinyHTML = await fetchScrutinyHTML();
-  const category     = extractPersonalDetails(scrutinyHTML)["Category"] ?? "N/A";
-  const isNCL       = extractPersonalDetails(scrutinyHTML)["list_of"]?.some(item => item.toUpperCase().includes("NCLCATEGORY CERTIFICATE")) ?? false;
-
-  console.log({ passYear, formNumber, subject: rawSubject, category, isSTCategory: ST_CATEGORIES.includes(category.trim().toUpperCase()),isNCL });
-
-  studentInfoCard.insertAdjacentElement("afterend", createNoticeBox({
-    subject: rawSubject,
-    category,
-    subjectRule,
-    passYear,
-    isNCL
-  }));
 }
 
 
-// ---------- Init ----------
-window.addEventListener("load", () => setTimeout(main, 1000));
+// =========================
+// Init
+// =========================
+
+window.addEventListener("load", () => {
+  setTimeout(main, 1000);
+});
