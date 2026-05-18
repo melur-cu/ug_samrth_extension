@@ -3,15 +3,9 @@
 // =========================
 
 const CONFIG = {
-  SUBJECT_INFO_URL:
-    "https://raw.githubusercontent.com/melur-cu/ug_samrth_extension/main/configs/subject_info.json",
-
+  SUBJECT_INFO_URL:"https://raw.githubusercontent.com/melur-cu/ug_samrth_extension/main/configs/subject_info.json",
   GAP_YEAR_CUTOFF: 2023,
-
-  SCRUTINY_BASE:
-    "https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/verify-documents-personal",
-
-  
+  SCRUTINY_BASE:"https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/verify-documents-personal",
 };
 
 let SUBJECT_INFO = {};
@@ -21,20 +15,16 @@ let ST_CATEGORIES = [];
 // Utilities
 // =========================
 
-const normalizeText = (text = "") =>
-  text.trim().toUpperCase();
+const normalizeText = (text = "") => text.trim().toUpperCase();
 
-const normalizeSubject = (text = "") =>
-  normalizeText(text).replace(/\s+/g, "_");
+const normalizeSubject = (text = "") => normalizeText(text).replace(/\s+/g, "_");
 
-const getQueryParams = () =>
-  new URL(window.location.href).searchParams;
+const getQueryParams = () => new URL(window.location.href).searchParams;
 
 const generateScrutinyURL = () => {
-  const params = getQueryParams();
-
-  return `${CONFIG.SCRUTINY_BASE}?id=${params.get("id")}&programme_selection_id=${params.get("programme_selection_id")}`;
-};
+                                    const params = getQueryParams();
+                                    return `${CONFIG.SCRUTINY_BASE}?id=${params.get("id")}&programme_selection_id=${params.get("programme_selection_id")}`;
+                                  };
 
 
 // =========================
@@ -144,14 +134,9 @@ function parsePersonalDetails(html) {
 
     for (const field of personalCard.querySelectorAll(".mb-1")) {
 
-      const key = field
-        .querySelector("strong.text-muted")
-        ?.textContent.trim();
+      const key = field.querySelector("strong.text-muted")?.textContent.trim();
 
-      const value = field
-        .querySelector(".text-sm")
-        ?.textContent.trim();
-
+      const value = field.querySelector(".text-sm")?.textContent.trim();
       if (key === "Category") {
         result.category = value || "N/A";
       }
@@ -159,10 +144,7 @@ function parsePersonalDetails(html) {
   }
 
   // Sidebar documents
-  result.documents = [
-    ...doc.querySelectorAll("dl.list-group dd div")
-  ]
-    .map(el => el.textContent.trim());
+  result.documents = [...doc.querySelectorAll("dl.list-group dd div")].map(el => el.textContent.trim());
 
   return result;
 }
@@ -173,17 +155,11 @@ function parsePersonalDetails(html) {
 // =========================
 
 function isReservedCategory(category) {
-
-  return ST_CATEGORIES.includes(
-    normalizeText(category)
-  );
+  return ST_CATEGORIES.includes( normalizeText(category));
 }
 
 function hasNCLCertificate(documents = []) {
-
-  return documents.some(doc =>
-    normalizeText(doc).includes("NCL")
-  );
+  return documents.some(doc => normalizeText(doc).includes("NCL"));
 }
 
 function getSubjectRule(subject, isReserved) {
@@ -195,9 +171,7 @@ function getSubjectRule(subject, isReserved) {
 
   const rule = SUBJECT_INFO[subject] || fallback;
 
-  return isReserved
-    ? rule.st || fallback.st
-    : rule.ot || fallback.ot;
+  return isReserved ? rule.st || fallback.st : rule.ot || fallback.ot;
 }
 
 
@@ -207,8 +181,7 @@ function getSubjectRule(subject, isReserved) {
 
 function createNoticeBox(data) {
 
-  const {
-    subject,
+  const { subject,
     category,
     passYear,
     isReserved,
@@ -216,27 +189,21 @@ function createNoticeBox(data) {
     ruleText
   } = data;
 
-  const hasGapIssue =
-    passYear < CONFIG.GAP_YEAR_CUTOFF;
+  const hasGapIssue = passYear < CONFIG.GAP_YEAR_CUTOFF;
 
-  const alertType =
-    hasGapIssue ? "danger" : "info";
+  const alertType = hasGapIssue ? "danger" : "info";
 
-  const borderColor =
-    hasGapIssue ? "#dc3545" : "#0d6efd";
+  const borderColor = hasGapIssue ? "#dc3545" : "#0d6efd";
 
-  const buttonClass =
-    hasGapIssue ? "btn-danger" : "btn-primary";
+  const buttonClass = hasGapIssue ? "btn-danger" : "btn-primary";
 
   const div = document.createElement("div");
 
   div.id = "notice-box";
 
-  div.className =
-    `alert alert-${alertType} mt-3 shadow-sm`;
+  div.className = 'alert alert-${alertType} mt-3 shadow-sm';
 
-  div.style.borderLeft =
-    `5px solid ${borderColor}`;
+  div.style.borderLeft = `5px solid ${borderColor}`;
 
   div.innerHTML = `
     <p class="mb-1">
@@ -245,13 +212,11 @@ function createNoticeBox(data) {
 
       <strong>Category:</strong> ${category}
 
-      ${isReserved
-        ? '<span class="badge bg-success ms-2">Relaxation Applied</span>'
+      ${isReserved ? '<span class="badge bg-success ms-2">Relaxation Applied</span>'
         : ""
       }
 
-      ${isNCL
-        ? '<span class="badge bg-warning ms-2">NCL Category</span>'
+      ${isNCL ? '<span class="badge bg-warning ms-2">NCL Category</span>'
         : ""
       }
     </p>
@@ -278,8 +243,7 @@ function createNoticeBox(data) {
     <a
       href="${generateScrutinyURL()}"
       class="btn ${buttonClass} btn-sm"
-      target="_blank"
-    >
+      target="_blank" >
       Document Scrutiny
     </a>
   `;
@@ -321,20 +285,15 @@ async function main() {
     // Fetch scrutiny page
     const scrutinyHTML = await fetchScrutinyHTML();
 
-    const personalData =
-      parsePersonalDetails(scrutinyHTML);
+    const personalData = parsePersonalDetails(scrutinyHTML);
 
-    const category =
-      personalData.category;
+    const category = personalData.category;
 
-    const isNCL =
-      hasNCLCertificate(personalData.documents);
+    const isNCL = hasNCLCertificate(personalData.documents);
 
-    const isReserved =
-      isNCL || isReservedCategory(category);
+    const isReserved = isNCL || isReservedCategory(category);
 
-    const ruleText =
-      getSubjectRule(rawSubject, isReserved);
+    const ruleText = getSubjectRule(rawSubject, isReserved);
 
     console.log({
       passYear,
