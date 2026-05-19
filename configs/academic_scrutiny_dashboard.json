@@ -1,0 +1,24 @@
+{
+  "columnVisibility": {
+    "#":                        true,
+    "Registration#":            true,
+    "Application Form#":        true,
+    "Academic Scrutiny Status": true,
+    "Action":                   true,
+    "Best Combination Selected": true,
+    "Name":                     true,
+    "Category":                 true,
+    "Programme":                true,
+    "Preference":               true,
+    "Major/1st Minor":          true,
+    "Admission Scheme":         false,
+    "All Disciplines":          true,
+    "XII - Subject Count":      true,
+    "XII - Max Marks":          false,
+    "XII - Obtained Marks":     false,
+    "XII - Percentage":         true,
+    "Email":                    false,
+    "Mobile":                   false,
+    "Gender":                   false
+  }
+}
