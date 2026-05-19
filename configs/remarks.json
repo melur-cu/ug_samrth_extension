@@ -3,7 +3,7 @@
   "signature":              "Invalid signature. Upload on white paper.",
   "id_proof_upload":        "Invalid ID proof. Upload a govt-issued ID.",
   "categoryCertificate":    "Invalid certificate. Treated as Unreserved.",
-  "nclcategoryCertificate": "Invalid NCL certificate. Treated as Unreserved.",
+  "nclcategoryCertificate": "Upload NCL cert. on or before 25 May. Treated Unreserved.",
   "incomeCertificate":      "Invalid document. Upload ration card only.",
   "domicile_state_upload":  "Invalid domicile. Aadhaar not accepted.",
   "cca_quota_upload":       "Invalid document. Upload valid certificate.",
