@@ -8,7 +8,7 @@
     "Best Combination Selected": false,
     "Name":                     true,
     "Category":                 true,
-    "Programme":                true,
+    "Programme":                false,
     "Preference":               false,
     "Major/1st Minor":          true,
     "Admission Scheme":         false,
@@ -17,7 +17,7 @@
     "XII - Max Marks":          false,
     "XII - Obtained Marks":     false,
     "XII - Percentage":         false,
-    "Email":                    true,
+    "Email":                    false,
     "Mobile":                   true,
     "Gender":                   false
   }

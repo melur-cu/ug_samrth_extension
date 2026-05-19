@@ -41,6 +41,53 @@ async function loadTableConfig() {
   }
 }
 
+// ---------- Fix Table ----------
+function fixTable() {
+  const wrapper = document.querySelector("#applicants");
+  const table   = document.querySelector("#applicants table");
+
+  if (!wrapper || !table) return;
+
+  // Wrapper styles
+  wrapper.style.overflowX    = "auto";
+  wrapper.style.overflowY    = "auto";
+  wrapper.style.maxHeight    = "75vh";
+  wrapper.style.position     = "relative";
+
+  // Table styles
+  table.style.borderCollapse = "separate";
+  table.style.borderSpacing  = "0";
+
+  // Sticky header
+  document.querySelectorAll("#applicants thead tr th").forEach(th => {
+    th.style.position        = "sticky";
+    th.style.top             = "0";
+    th.style.zIndex          = "10";
+    th.style.backgroundColor = "#292961";
+    th.style.color           = "#ffffff";
+    th.style.whiteSpace      = "nowrap";
+    th.style.padding         = "8px 12px";
+    th.style.boxShadow       = "0 2px 4px rgba(0,0,0,0.2)";
+  });
+
+  // Sticky filter row
+  document.querySelectorAll("#applicants thead tr:nth-child(2) th, #applicants thead tr:nth-child(2) td").forEach(td => {
+    td.style.position        = "sticky";
+    td.style.top             = "41px"; // height of header row
+    td.style.zIndex          = "9";
+    td.style.backgroundColor = "#f8f9fa";
+    td.style.boxShadow       = "0 2px 4px rgba(0,0,0,0.1)";
+  });
+
+  // Body cell styles
+  document.querySelectorAll("#applicants tbody td").forEach(td => {
+    td.style.whiteSpace = "nowrap";
+    td.style.padding    = "6px 12px";
+  });
+
+  console.log("Table fixed with sticky header.");
+}
+
 
 // ---------- Table Helpers ----------
 function getTable() {
@@ -163,9 +210,11 @@ async function tableMain() {
 
   await loadTableConfig();
 
+  //fixTable(); 
   highlightRows();
   applyColumnVisibility();
   //injectSummaryBar();
+  
 }
 
 
