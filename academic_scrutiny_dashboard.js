@@ -159,6 +159,7 @@ function injectSummaryBar() {
 // ---------- Main ----------
 async function tableMain() {
   if (!document.querySelector("#applicants table")) return;
+  console.log("Academic Scrutiny Dashboard: Initializing...");
 
   await loadTableConfig();
 

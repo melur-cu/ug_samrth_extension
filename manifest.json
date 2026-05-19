@@ -57,9 +57,9 @@
       "js": ["verify_documents_final.js"]
     },
     {
-      "_name_": "Academic Scrutiny Dashboard",
+      "_comment_section_": "Academic Scrutiny Dashboard",
       "matches": [
-        "https://assam.samarth.ac.in/index.php/admissionhed126/applicants/paid-list-acad?*"
+        "https://assam.samarth.ac.in/index.php/admissionhed126/applicants/paid-list-acad*"
       ],
       "js": ["academic_scrutiny_dashboard.js"]
     }

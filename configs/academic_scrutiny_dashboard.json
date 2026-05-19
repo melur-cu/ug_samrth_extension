@@ -9,16 +9,16 @@
     "Name":                     true,
     "Category":                 true,
     "Programme":                true,
-    "Preference":               true,
+    "Preference":               false,
     "Major/1st Minor":          true,
     "Admission Scheme":         false,
-    "All Disciplines":          true,
-    "XII - Subject Count":      true,
+    "All Disciplines":          false,
+    "XII - Subject Count":      false,
     "XII - Max Marks":          false,
     "XII - Obtained Marks":     false,
     "XII - Percentage":         true,
-    "Email":                    false,
-    "Mobile":                   false,
-    "Gender":                   false
+    "Email":                    true,
+    "Mobile":                   true,
+    "Gender":                   true
   }
 }
