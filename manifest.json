@@ -15,7 +15,8 @@
       "matches": [
         "https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/verify-documents-personal?*"
       ],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "css":["style.css"]
     },
     {
       "matches": [
