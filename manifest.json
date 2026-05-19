@@ -22,7 +22,8 @@
       "matches": [
         "https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/best-five?*"
       ],
-      "js": ["best_of_three.js"]
+      "js": ["best_of_three.js"],
+      "css":["style.css"]
     },
     {
       "matches": [
