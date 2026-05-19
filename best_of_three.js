@@ -243,7 +243,7 @@ function createNoticeBox(data) {
     <a
       href="${generateScrutinyURL()}"
       class="btn ${buttonClass} btn-sm"
-      target="_blank" >
+       >
       Document Scrutiny
     </a>
   `;
