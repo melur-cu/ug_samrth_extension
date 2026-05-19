@@ -5,7 +5,7 @@
     "Application Form#":        true,
     "Academic Scrutiny Status": true,
     "Action":                   true,
-    "Best Combination Selected": true,
+    "Best Combination Selected": false,
     "Name":                     true,
     "Category":                 true,
     "Programme":                true,
@@ -16,9 +16,9 @@
     "XII - Subject Count":      false,
     "XII - Max Marks":          false,
     "XII - Obtained Marks":     false,
-    "XII - Percentage":         true,
+    "XII - Percentage":         false,
     "Email":                    true,
     "Mobile":                   true,
-    "Gender":                   true
+    "Gender":                   false
   }
 }

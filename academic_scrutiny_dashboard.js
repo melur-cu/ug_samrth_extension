@@ -165,7 +165,7 @@ async function tableMain() {
 
   highlightRows();
   applyColumnVisibility();
-  injectSummaryBar();
+  //injectSummaryBar();
 }
 
 
