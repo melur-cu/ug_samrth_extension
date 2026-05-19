@@ -47,6 +47,12 @@
         "https://assamadmission.samarth.ac.in/index.php/course/programme/course-selection*"
       ],
       "js": ["redirect_to_update_marks.js"]
+    },
+    {
+      "matches": [
+        "https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/verify-documents-final?*"
+      ],
+      "js": ["verify_documents_final.js"]
     }
     
   ]
