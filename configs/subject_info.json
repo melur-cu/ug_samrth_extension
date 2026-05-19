@@ -72,8 +72,8 @@
     "st": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>55% aggregate</u> marks or equivalent grade points.</li><li>Choose best 3 science subjects.</li></ul>"
   },
   "COMPUTER_SCIENCE": {
-    "ot": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>60% aggregate</u> marks or equivalent grade points with <u style='background-color: yellow;'>pass marks in Mathematics.</u></li><li>Choose best 3 science subjects.</li></ul>",
-    "st": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>55% aggregate</u> marks or equivalent grade points with <u style='background-color: yellow;'>pass marks in Mathematics.</u></li><li>Choose best 3 science subjects.</li></ul>"
+    "ot": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>60% aggregate</u> marks or equivalent grade points with <u style='background-color: yellow;'>pass marks in <span class='blink' >Mathematics.</span></u></li><li>Choose best <span class='blink' >3 science </span>subjects.</li></ul>",
+    "st": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>55% aggregate</u> marks or equivalent grade points with <u style='background-color: yellow;'>pass marks in <span class='blink' >Mathematics.</span></u></li><li>Choose best <span class='blink' >3 science </span>subjects.</li></ul>"
   },
   "ZOOLOGY": {
     "ot": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>60% aggregate</u> marks or equivalent grade points with <u style='background-color: yellow;'>pass marks in Biology.</u></li><li>Choose best 3 science subjects.</li></ul>",
