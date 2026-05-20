@@ -92,8 +92,8 @@
     "st": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>55% aggregate</u> marks or equivalent grade points with <u style='background-color: yellow;'>50% marks in Chemistry and pass marks in Mathematics.</u></li><li>Choose best 3 science subjects.</li></ul>"
   },
   "GEOLOGY": {
-    "ot": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>60% aggregate</u> marks or equivalent grade points with <u style='background-color: yellow;'>pass marks in Physics or Chemistry or Mathematics.</u></li><li>Choose best 3 science subjects.</li></ul>",
-    "st": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>55% aggregate</u> marks or equivalent grade points with <u style='background-color: yellow;'>pass marks in Physics or Chemistry or Mathematics.</u></li><li>Choose best 3 science subjects.</li></ul>"
+    "ot": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>60% aggregate</u> marks or equivalent grade points with <u style='background-color: yellow;'>pass marks in <span class='blink'> Physics or Chemistry or Mathematics.</span></u></li><li>Choose best <span class='blink'>3 science</span> subjects.</li></ul>",
+    "st": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>55% aggregate</u> marks or equivalent grade points with <u style='background-color: yellow;'>pass marks in <span class='blink'> Physics or Chemistry or Mathematics.</span></u></li><li>Choose best <span class='blink'>3 science</span> subjects.</li></ul>"
   },
   "MATHEMATICS": {
     "ot": "<ul><li>HS/10+2 standard pass with minimum <u style='background-color: yellow;'>60% aggregate</u> marks or equivalent grade points with <u style='background-color: yellow;'>50% marks in Mathematics.</u></li><li><u style='background-color: yellow;'>If applicant passed in ARTS stream, then any 3 best subjects.</u></li><li><u style='background-color: yellow;'>If applicant passed in SCIENCE stream, then best 3 science subjects. </u></li></ul>",
