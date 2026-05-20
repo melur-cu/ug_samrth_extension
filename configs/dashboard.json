@@ -1,7 +1,8 @@
 {
     "sites" : [
         "https://assam.samarth.ac.in/index.php/site/reset-password",
-        "https://assam.samarth.ac.in/index.php/dashboard/dashboard/index"
+        "https://assam.samarth.ac.in/index.php/dashboard/dashboard/index",
+        "https://assam.samarth.ac.in/index.php/dashboard"
     ],
     "redirect_root": [
         "https://assam.samarth.ac.in/index.php/admissionhed126/applicants/paid-list-acad"
