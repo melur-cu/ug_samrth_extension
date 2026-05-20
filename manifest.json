@@ -37,7 +37,12 @@
       ],
       "js": ["paid_list_doc.js"]
     },
-    
+    {
+      "matches": [
+        "https://assam.samarth.ac.in/*"
+      ],
+      "js": ["redirect_root.js"]
+    },
     {
       "matches": [
         "https://assamadmission.samarth.ac.in/index.php/academic/academic/create*"
