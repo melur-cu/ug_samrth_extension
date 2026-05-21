@@ -135,8 +135,9 @@ No action needed — the extension fetches the latest JSON from GitHub on every 
 
 ## Maintainer
 
-**Cotton University — Programme Incharge Office**
+**Cotton University — Programmer **
 [melur.phangcho@cottonuniversity.ac.in](mailto:melur.phangcho@cottonuniversity.ac.in)
+[saurav.sarma@cottonuniversity.ac.in](mailto:saurav.sarma@cottonuniversity.ac.in)
 
 ---
 
