@@ -162,6 +162,10 @@ function hasNCLCertificate(documents = []) {
   return documents.some(doc => normalizeText(doc).includes("NCL"));
 }
 
+function hasPwDCertificate(documents = []) {
+  return documents.some(doc => normalizeText(doc).includes("PwD"));
+}
+
 function getSubjectRule(subject, isReserved) {
 
   const fallback = {
@@ -286,11 +290,13 @@ async function main() {
 
     const isNCL = hasNCLCertificate(personalData.documents);
 
+    const isPwD = hasPwDCertificate(personalData.documents);
+
     const isReserved = isNCL || isReservedCategory(category);
 
     const ruleText = getSubjectRule(rawSubject, isReserved);
 
-    console.log({passYear,subject: rawSubject,category,isReserved,isNCL});
+    console.log({passYear,subject: rawSubject,category,isReserved,isNCL,isPwD});
 
     const noticeBox = createNoticeBox({
                                         subject: rawSubject,
