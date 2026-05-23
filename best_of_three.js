@@ -4,12 +4,14 @@
 
 const CONFIG = {
   SUBJECT_INFO_URL:"https://raw.githubusercontent.com/melur-cu/ug_samrth_extension/main/configs/subject_info.json",
+  DATA_URL:"https://raw.githubusercontent.com/melur-cu/ug_samrth_extension/main/configs/data.json",
   GAP_YEAR_CUTOFF: 2023,
   SCRUTINY_BASE:"https://assam.samarth.ac.in/index.php/admissionhed126/admission-list/verify-documents-personal",
 };
 
 let SUBJECT_INFO = {};
 let ST_CATEGORIES = [];
+let PWD_LIST = [];
 
 // =========================
 // Utilities
@@ -47,6 +49,26 @@ async function loadSubjectInfo() {
   } catch (error) {
     console.error("Failed to load subject info:", error);
     SUBJECT_INFO = {};
+  }
+}
+
+async function loadData() {
+  try {
+    const response = await fetch(CONFIG.DATA_URL);
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    DATA = data;
+    PWD_LIST = data.pwd || [];
+
+    console.log("Data loaded");
+  } catch (error) {
+    console.error("Failed to load data:", error);
+    DATA = {};
+    PWD_LIST = [];
   }
 }
 

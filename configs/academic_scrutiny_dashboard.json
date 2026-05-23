@@ -13,7 +13,7 @@
     "Major/1st Minor":          true,
     "Admission Scheme":         false,
     "All Disciplines":          false,
-    "XII - Subject Count":      false,
+    "XII - Subject Count":      true,
     "XII - Max Marks":          false,
     "XII - Obtained Marks":     false,
     "XII - Percentage":         false,
